@@ -16,13 +16,3 @@
           - htop
           - figlet
         state: present
-
-    - name: Crear banner de bienvenida con figlet
-      shell: "figlet 'DCSolutions SRL' > /etc/motd"
-      args:
-        creates: /etc/motd_custom_done # Esto evita que se ejecute innecesariamente cada vez
-
-    - name: Generar archivo de confirmacion final
-      copy:
-        content: "Equipo actualizado con figlet el {{ ansible_date_time.iso8601 }}"
-        dest: /tmp/ansible_figlet_ok.txt
