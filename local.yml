@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Actualizar el listado de paquetes (apt-get update)
+      apt:
+        update_cache: yes
+
+    - name: Instalar neofetch para identificar el equipo
+      apt:
+        name: neofetch
+        state: present
+
+    - name: Crear un archivo de estado para saber que Ansible funcionó
+      copy:
+        content: "Equipo gestionado por Ansible-Pull - {{ ansible_date_time.iso8601 }}"
+        dest: /root/ansible-status.txt
