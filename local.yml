@@ -1,17 +1,23 @@
 ---
 - hosts: localhost
   connection: local
+  # Esto elimina el warning de pattern matching
+  gather_facts: yes
+
   tasks:
-    - name: Actualizar el listado de paquetes (apt-get update)
+    - name: Actualizar el listado de paquetes
       apt:
         update_cache: yes
+        cache_valid_time: 3600
 
-    - name: Instalar neofetch para identificar el equipo
+    - name: Instalar herramientas basicas
       apt:
-        name: neofetch
+        name: 
+          - curl
+          - htop
         state: present
 
-    - name: Crear un archivo de estado para saber que Ansible funcionó
+    - name: Crear archivo de confirmacion
       copy:
-        content: "Equipo gestionado por Ansible-Pull - {{ ansible_date_time.iso8601 }}"
-        dest: /root/ansible-status.txt
+        content: "DCSolutions Lab - Ejecutado el {{ ansible_date_time.iso8601 }}"
+        dest: /tmp/ansible_ok.txt
