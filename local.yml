@@ -1,23 +1,28 @@
 ---
 - hosts: localhost
   connection: local
-  # Esto elimina el warning de pattern matching
   gather_facts: yes
 
   tasks:
-    - name: Actualizar el listado de paquetes
+    - name: Actualizar cache de APT
       apt:
         update_cache: yes
         cache_valid_time: 3600
 
-    - name: Instalar herramientas basicas
+    - name: Instalar herramientas de sistema y diseño
       apt:
-        name: 
+        name:
           - curl
           - htop
+          - figlet
         state: present
 
-    - name: Crear archivo de confirmacion
+    - name: Crear banner de bienvenida con figlet
+      shell: "figlet 'DCSolutions SRL' > /etc/motd"
+      args:
+        creates: /etc/motd_custom_done # Esto evita que se ejecute innecesariamente cada vez
+
+    - name: Generar archivo de confirmacion final
       copy:
-        content: "DCSolutions Lab - Ejecutado el {{ ansible_date_time.iso8601 }}"
-        dest: /tmp/ansible_ok.txt
+        content: "Equipo actualizado con figlet el {{ ansible_date_time.iso8601 }}"
+        dest: /tmp/ansible_figlet_ok.txt
