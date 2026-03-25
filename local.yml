@@ -12,7 +12,5 @@
     - name: Instalar herramientas de sistema y diseño
       apt:
         name:
-          - curl
-          - htop
           - figlet
         state: present
