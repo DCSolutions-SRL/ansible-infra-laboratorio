@@ -1,16 +1,19 @@
 ---
 - hosts: localhost
   connection: local
-  gather_facts: yes
+  gather_facts: yes # Necesario para obtener la fecha del sistema
 
   tasks:
-    - name: Actualizar cache de APT
-      apt:
-        update_cache: yes
-        cache_valid_time: 3600
-
-    - name: Instalar herramientas de sistema y diseño
-      apt:
-        name:
-          - figlet
-        state: present
+    - name: Crear archivo con la fecha de hoy
+      copy:
+        dest: /tmp/fecha_ansible.txt
+        content: |
+          ======================================
+          REPORTE DCSOLUTIONS - CONTROL DE PULSO
+          ======================================
+          Fecha actual: {{ ansible_date_time.date }}
+          Hora actual:  {{ ansible_date_time.time }}
+          Equipo:       {{ ansible_hostname }}
+          Estado:       CONECTADO Y SINCRONIZADO
+          ======================================
+        mode: '0644'
